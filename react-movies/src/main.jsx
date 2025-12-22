@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, createContext, useContext} from "react";
+import React, { useMemo, useState, useEffect, createContext} from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
 import HomePage from "./pages/homePage";
@@ -19,6 +19,11 @@ import PersonDetailsPage from "./pages/personDetailsPage";
 import { ThemeProvider, CssBaseline, Container } from "@mui/material";
 import { createAppTheme } from "./theme";
 import "./index.css";  
+import LoginPage from "./pages/loginPage";
+import SignupPage from "./pages/signupPage";
+import ProfilePage from "./pages/profilePage";
+import AuthContextProvider from "./contexts/authContext";
+import ProtectedRoutes from "./protectedRoutes";
 
 export const ColorModeContext = createContext({ mode: "light", toggle: () => {} });
 
@@ -64,8 +69,9 @@ const App = () => {
         <BrowserRouter>
         <SiteHeader />
         <MoviesContextProvider>
+          <AuthContextProvider>
           <Routes>
-            <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
+            
             <Route path="/reviews/:id" element={ <MovieReviewPage /> } />
             <Route path="/movies/:id" element={<MoviePage />} />
             <Route path="/" element={<HomePage />} />
@@ -77,7 +83,17 @@ const App = () => {
             <Route path="/movies/top_rated" element={<TopRatedMoviesPage />} />
             <Route path="/movies/now_playing" element={<NowPlayingMoviesPage />} />
             <Route path="/people/:id" element={<PersonDetailsPage />} />
+
+            <Route path="/login" element={< LoginPage />} />
+            <Route path="/signup" element={< SignupPage />} />
+            <Route path="/profile" element={< ProfilePage />} />
+
+            <Route element={<ProtectedRoutes />}>
+            <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
+            </Route>
+
           </Routes>
+          </AuthContextProvider>
          </MoviesContextProvider>
         </BrowserRouter>
        <ReactQueryDevtools initialIsOpen={false} />
