@@ -66,10 +66,11 @@ const App = () => {
      <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
        <CssBaseline />  
+
         <BrowserRouter>
-        <SiteHeader />
-        <MoviesContextProvider>
           <AuthContextProvider>
+          <MoviesContextProvider>
+          <SiteHeader />
           <Routes>
             
             <Route path="/reviews/:id" element={ <MovieReviewPage /> } />
@@ -86,16 +87,17 @@ const App = () => {
 
             <Route path="/login" element={< LoginPage />} />
             <Route path="/signup" element={< SignupPage />} />
-            <Route path="/profile" element={< ProfilePage />} />
 
             <Route element={<ProtectedRoutes />}>
             <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
+            <Route path="/profile" element={< ProfilePage />} />
             </Route>
 
           </Routes>
+          </MoviesContextProvider>
           </AuthContextProvider>
-         </MoviesContextProvider>
         </BrowserRouter>
+
        <ReactQueryDevtools initialIsOpen={false} />
        </ThemeProvider>
      </ColorModeContext.Provider>
