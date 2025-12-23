@@ -92,7 +92,7 @@ export const getMovie = (args) => {
 
 export const getUpcomingMovies = () => {
   return fetch(
-    `https://api.themoviedb.org/3/movie/upcoming?api_key=${
+    `http://localhost:8080/api/movies/upcoming?api_key=${
       import.meta.env.VITE_TMDB_KEY
     }`
   )
