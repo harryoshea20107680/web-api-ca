@@ -54,7 +54,7 @@ export const getMovie = (args) => {
   };
 
 
-  export const getMovieImages = ({ queryKey }) => {
+export const getMovieImages = ({ queryKey }) => {
     const [, idPart] = queryKey;
     const { id } = idPart;
     return fetch(
@@ -72,7 +72,47 @@ export const getMovie = (args) => {
    });
   };
 
-  export const getMovieReviews = ({ queryKey }) => {
+export const addReview = ( reviewData ) => {
+    const token = localStorage.getItem("token");
+    return fetch(
+      `http://localhost:8080/api/reviews`,{
+        method: "post",
+        headers: {'Content-Type': 'application/json', Authorization: `Bearer ${token}`, },
+        body: JSON.stringify(reviewData),
+      }
+    ).then((response) => {
+      if (!response.ok) {
+        return response.json().then((error) => {
+          throw new Error(error.status_message || "Something went wrong");
+        });
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error
+   });
+  };
+
+export const getUserReviews = ( username ) => {
+    const token = localStorage.getItem("token");
+    return fetch(
+      `http://localhost:8080/api/reviews/user/${username}`,
+     { headers: { Authorization: `Bearer ${token}`, }
+
+      }).then( (response) => {
+      if (!response.ok) {
+        return response.json().then((error) => {
+          throw new Error(error.status_message || "Something went wrong");
+        });
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error
+   });
+  };
+
+export const getMovieReviews = ({ queryKey }) => {
     const [, idPart] = queryKey;
     const { id } = idPart;
     return fetch(
@@ -90,11 +130,27 @@ export const getMovie = (args) => {
    });
   };
 
+
+export const getDbMovieReviews = ( { queryKey }) => {
+    const [, idPart] = queryKey;
+    const { id } = idPart;
+    return fetch(
+      `http://localhost:8080/api/reviews/movie/${id}`
+    ).then( (response) => {
+      if (!response.ok) {
+        return response.json().then((error) => {
+          throw new Error(error.status_message || "Something went wrong");
+        });
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error
+   });
+}
 export const getUpcomingMovies = () => {
   return fetch(
-    `http://localhost:8080/api/movies/upcoming?api_key=${
-      import.meta.env.VITE_TMDB_KEY
-    }`
+    `http://localhost:8080/api/movies/upcoming`
   )
     .then((response) => {
       if (!response.ok) {

@@ -6,6 +6,8 @@ import cors from 'cors';
 import usersRouter from './api/users';
 import authenticate from './authenticate';
 import moviesRouter from './api/movies';   
+import reviewsRouter from './api/reviews';
+
 
 dotenv.config();
 
@@ -34,6 +36,8 @@ app.use('/api/users', usersRouter);
 app.use(errHandler);
 
 app.use('/api/movies', moviesRouter); 
+
+app.use('/api/reviews', reviewsRouter);
 
 app.listen(port, () => {
   console.info(`Server running at ${port}`);

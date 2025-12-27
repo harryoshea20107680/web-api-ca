@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
 import Drawer from "@mui/material/Drawer";
 import MovieReviews from "../movieReviews"
+import DbMovieReviews from "../dbMovieReviews";
 import LanguageIcon from "@mui/icons-material/Language";
 import MovieCast from "../movieCast";
 
@@ -97,9 +98,11 @@ const [drawerOpen, setDrawerOpen] = useState(false);
       </Fab>
       <Drawer anchor="top" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <MovieReviews movie={movie} />
+        <DbMovieReviews movie={movie} />
       </Drawer>
 
       </>
+      
   );
 };
 export default MovieDetails ;
