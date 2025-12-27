@@ -1,11 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, createContext } from "react";
 
-export const MoviesContext = React.createContext(null);
+export const MoviesContext = createContext(null);
 
 const MoviesContextProvider = (props) => {
-  const [favorites, setFavorites] = useState( [] )
+
+  const [favorites, setFavorites] = useState(() => 
+    JSON.parse(localStorage.getItem("favorites") || "[]" )
+  );
+
+  useEffect(()=> {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
+
   const [mustWatch, setMustWatch] = useState([]); 
-  const [myReviews, setMyReviews] = useState( {} ) 
+
+  const [myReviews, setMyReviews] = useState( {} );
+
 
   const addToFavorites = (movie) => {
     let newFavorites = [];
